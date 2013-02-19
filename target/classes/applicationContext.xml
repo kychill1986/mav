@@ -14,4 +14,56 @@
 
 	<context:component-scan base-package="com.yang.*" />
 
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+	<context:property-placeholder location="classpath:db.properties"
+		file-encoding="utf8" />
+	<bean id="utf8" class="java.lang.String">
+		<constructor-arg value="utf-8"></constructor-arg>
+	</bean>
+
+	<!-- Main data source -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${jdbc.driverClass}" />
+		<property name="jdbcUrl" value="${jdbc.main.url}" />
+		<property name="user" value="${jdbc.main.username}" />
+		<property name="password" value="${jdbc.main.password}" />
+		<property name="autoCommitOnClose" value="true" />
+		<property name="checkoutTimeout" value="${pool.checkoutTimeout}" />
+		<property name="initialPoolSize" value="${pool.minPoolSize}" />
+		<property name="minPoolSize" value="${pool.minPoolSize}" />
+		<property name="maxPoolSize" value="${pool.maxPoolSize}" />
+		<property name="maxIdleTime" value="${pool.maxIdleTime}" />
+		<property name="acquireIncrement" value="${pool.acquireIncrement}" />
+		<property name="maxIdleTimeExcessConnections" value="${pool.maxIdleTimeExcessConnections}" />
+		<property name="idleConnectionTestPeriod" value="${pool.idleConnectionTestPeriod}" />
+		<property name="automaticTestTable" value="${pool.automaticTestTable}" />
+		<property name="numHelperThreads" value="${pool.numHelperThreads}" />
+	</bean>
+
+	<!-- ================================================================== 
+		Transaction ================================================================== -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<tx:advice id="txAdvice">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="*" rollback-for="Exception" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="service"
+			expression="execution(* com.yang..service..*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="service" />
+	</aop:config>
+
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg ref="dataSource" />
+	</bean>
 </beans>

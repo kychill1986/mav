@@ -17,6 +17,6 @@ public class UserTest {
 	
 	@Test
 	public void testHasMatchUser() {
-		userService.getUserInfo();
+		System.out.println(userService.getUserInfo());
 	}
 }
