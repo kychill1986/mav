@@ -12,6 +12,18 @@ import org.springframework.stereotype.Repository;
 
 import com.yang.entity.Users;
 
+/**
+ * 
+ * . <br>
+ * <p>
+ * 修改历史: 2013-2-20 上午9:29:39 yichao.yang@chipease.com <br>
+ * 修改说明: <br>
+ * <p>
+ * Copyright: Copyright (c) 2013-2-20 上午9:29:39
+ * <p>
+ * @author yichao.yang@rayhov.com
+ * @version 1.0
+ */
 @Repository
 public class UserDao {
 
