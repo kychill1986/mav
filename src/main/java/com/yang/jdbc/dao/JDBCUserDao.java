@@ -1,4 +1,4 @@
-package com.yang.dao;
+package com.yang.jdbc.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,7 +25,7 @@ import com.yang.entity.Users;
  * @version 1.0
  */
 @Repository
-public class UserDao {
+public class JDBCUserDao {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;

@@ -19,7 +19,8 @@ public class UserController {
 	public ModelAndView getUserList() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("user/list");
-		mav.addObject("list",userService.getUserInfo());
+		mav.addObject("list", userService.getAllUser());
+		// mav.addObject("list",userService.getUserInfo());
 		return mav;
 	}
 
