@@ -22,8 +22,7 @@ public class JSONController {
 	@RequestMapping(method = RequestMethod.GET, value = "/getAllUser")
 	/**只是原方不动的输出对象*/
 	// @ResponseBody
-	/**要使用“http://localhost:8080/mav/json/getAllUser.xml”形式输出xml，注解必须是@ModelAttribute
-	；“http://localhost:8080/mav/json/getAllUser.json”，输出json对象*/
+	/**要使用“http://localhost:8080/mav/json/getAllUser.xml”形式输出xml，注解必须是@ModelAttribute；“http://localhost:8080/mav/json/getAllUser.json”，输出json对象*/
 	@ModelAttribute
 	public List<Users> getAllUser() {
 		List<Users> list = userService.getAllUser();
