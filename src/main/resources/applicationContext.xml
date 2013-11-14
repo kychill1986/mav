@@ -26,8 +26,8 @@
 	</bean>
 
 	<!-- Main data source -->
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-		destroy-method="close">
+	<!-- Main data source -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
 		<property name="driverClass" value="${jdbc.driverClass}" />
 		<property name="jdbcUrl" value="${jdbc.main.url}" />
 		<property name="user" value="${jdbc.main.username}" />
