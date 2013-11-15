@@ -6,11 +6,15 @@ public class Users implements Serializable {
 	/**   */
 	private static final long serialVersionUID = -5873691974645631359L;
 
-	public Integer getId() {
+	private String id;
+	private String username;
+	private String password;
+
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -29,8 +33,4 @@ public class Users implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	private Integer id;
-	private String username;
-	private String password;
 }
