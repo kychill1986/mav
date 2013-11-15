@@ -15,9 +15,9 @@ Date: 2013-02-19 15:04:18
 
 SET FOREIGN_KEY_CHECKS=0;
 
--- ----------------------------
+-- ----------------------------+--
 -- Table structure for `user`
--- ----------------------------
+-- ----------------------------+--
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -26,8 +26,8 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- ----------------------------
+-- ----------------------------+--
 -- Records of user
--- ----------------------------
+-- ----------------------------+--
 INSERT INTO `user` VALUES ('1', 'chill', '111111');
 INSERT INTO `user` VALUES ('2', 'kawaru', '222222');
