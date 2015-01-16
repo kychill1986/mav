@@ -89,6 +89,7 @@
         <property name="poolConfig" ref="jedisPoolConfig"></property>  
         <property name="hostName" value="127.0.0.1"></property>  
         <property name="port" value="6379"></property>  
+        <property name="database" value="0"></property>  
         <!--<property name="password" value="0123456"></property> --> 
         <property name="timeout" value="15000"></property>  
         <property name="usePool" value="true"></property>  
@@ -102,10 +103,10 @@
 	        <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>  
 	    </property>  
 	    <property name="valueSerializer">  
-	        <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>  
+	        <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>  
 	    </property>  
 	    <property name="hashValueSerializer">  
-	        <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>  
+	        <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>  
 	    </property>  
     </bean>  
 </beans>
