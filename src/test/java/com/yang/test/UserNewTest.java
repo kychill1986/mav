@@ -18,7 +18,7 @@ public class UserNewTest {
 	private RetwisRepository retwis;
 
 	@Test
-	public void SaveUser() {
+	public void saveUser() {
 		Users user = new Users();
 		user.setId("1");
 		user.setUsername("Chill");
@@ -28,7 +28,7 @@ public class UserNewTest {
 	}
 	
 	@Test
-	public void UpdateUser() {
+	public void updateUser() {
 		Users user = new Users();
 		user.setPassword("hahahaha");
 		retwis.updateUser("1", user);
