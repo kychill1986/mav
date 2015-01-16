@@ -19,14 +19,15 @@ public class UserNewTest {
 
 	@Test
 	public void saveUser() {
+		String id = "1";
 		Users user = new Users();
-		user.setId("1");
+		user.setId(id);
 		user.setUsername("Chill");
 		user.setPassword("1111");
-		retwis.saveUserId("1");
-		retwis.saveUser("1", user);
+		retwis.saveUserId(id);
+		retwis.saveUser(id, user);
 	}
-	
+
 	@Test
 	public void updateUser() {
 		Users user = new Users();
