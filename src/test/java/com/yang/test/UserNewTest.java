@@ -30,7 +30,7 @@ public class UserNewTest {
 	@Test
 	public void updateUser() {
 		Users user = new Users();
-		user.setPassword("hahahaha");
+		user.setPassword("hahahaha111");
 		retwis.updateUser("1", user);
 	}
 

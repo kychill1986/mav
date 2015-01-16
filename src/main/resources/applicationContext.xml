@@ -19,11 +19,14 @@
     <!-- ======================= aop =============== -->
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 
-	<context:property-placeholder location="classpath:db.properties"
-		file-encoding="utf8" />
-	<bean id="utf8" class="java.lang.String">
-		<constructor-arg value="utf-8"></constructor-arg>
-	</bean>
+	<bean id="propertyConfigurer"  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+     	<property name="locations">
+	       	<list>
+	            <value>classpath:db.properties</value>
+	            <value>classpath:redis.properties</value>
+	       	</list>
+     	</property>
+    </bean>
 
 	<!-- Main data source -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
@@ -80,21 +83,21 @@
 	
 	<!-- ======================== Redis ======================== -->
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">  
-        <property name="maxIdle" value="6"></property>  
-        <property name="minEvictableIdleTimeMillis" value="300000"></property>  
-        <property name="numTestsPerEvictionRun" value="3"></property>  
-        <property name="timeBetweenEvictionRunsMillis" value="60000"></property>  
+        <property name="maxIdle" value="${redis.maxIdle}"></property>  
+        <property name="minEvictableIdleTimeMillis" value="${redis.minEvictableIdleTimeMillis}"></property>  
+        <property name="numTestsPerEvictionRun" value="${redis.numTestsPerEvictionRun}"></property>  
+        <property name="timeBetweenEvictionRunsMillis" value="${redis.timeBetweenEvictionRunsMillis}"></property>  
     </bean>  
     <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" destroy-method="destroy">  
         <property name="poolConfig" ref="jedisPoolConfig"></property>  
-        <property name="hostName" value="127.0.0.1"></property>  
-        <property name="port" value="6379"></property>
+        <property name="hostName" value="${redis.hostName}"></property>  
+        <property name="port" value="${redis.port}"></property>  
         <!-- 指定dbIndex --> 
-        <property name="database" value="0"></property>  
+		<property name="database" value="${redis.dbIndex}"></property>  
         <!--<property name="password" value="0123456"></property> --> 
-        <property name="timeout" value="15000"></property>  
-        <property name="usePool" value="true"></property>  
-    </bean>  
+        <property name="timeout" value="${redis.timeout}"></property>  
+        <property name="usePool" value="${redis.usePool}"></property>  
+    </bean>    
     <bean id="jedisTemplate" class="org.springframework.data.redis.core.RedisTemplate">  
         <property name="connectionFactory" ref="jedisConnectionFactory"></property>  
 	    <property name="keySerializer">  
