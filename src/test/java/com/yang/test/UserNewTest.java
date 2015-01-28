@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.yang.entity.Users;
+import com.yang.bean.UserBean;
 import com.yang.reidis.RetwisRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -17,20 +17,25 @@ public class UserNewTest {
 	@Resource
 	private RetwisRepository retwis;
 
-	@Test
+//	@Test
 	public void saveUser() {
-		String id = "1";
-		Users user = new Users();
-		user.setId(id);
-		user.setUsername("Chill");
-		user.setPassword("1111");
-		retwis.saveUserId(id);
-		retwis.saveUser(id, user);
+		for (int i = 0; i < 11; i++) {
+			double score = Double.valueOf(1421908495253d);
+			UserBean user = new UserBean(i + "", "chill" + i, "pass" + i, score + i);
+			retwis.saveUser(i + "", user);
+			
+			retwis.saveSortUserId(i + "", score + i);
+		}
+	}
+	
+	@Test
+	public void getZSetId() {
+		System.out.println("----------->>"+retwis.userIdZSet().rangeByScore(1421908495250d, 1421908495256d));
 	}
 
-	@Test
+	// @Test
 	public void updateUser() {
-		Users user = new Users();
+		UserBean user = new UserBean();
 		user.setPassword("hahahaha111");
 		retwis.updateUser("1", user);
 	}

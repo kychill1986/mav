@@ -28,6 +28,10 @@ abstract class KeyUtils {
 		return USER + "id";
 	}
 	
+	static String userIdZSet() {
+		return USER + "zid";
+	}
+	
 	static String userInfo(String uid) {
 		return USER + "info:" + uid;
 	}
