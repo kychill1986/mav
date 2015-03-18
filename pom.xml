@@ -364,8 +364,7 @@
 			<artifactId>mybatis-spring</artifactId>
 			<version>1.1.0</version>
 		</dependency>
-
-
+		
 		<!-- jackson -->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
@@ -378,6 +377,11 @@
 			<version>1.8.3</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>com.lmax</groupId>
+			<artifactId>disruptor</artifactId>
+			<version>3.3.2</version>
+		</dependency>
 		
 	</dependencies>
 </project>

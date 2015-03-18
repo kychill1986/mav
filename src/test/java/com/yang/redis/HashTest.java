@@ -1,4 +1,4 @@
-package com.yang.test;
+package com.yang.redis;
 
 import java.util.List;
 
