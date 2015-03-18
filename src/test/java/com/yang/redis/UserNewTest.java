@@ -1,4 +1,4 @@
-package com.yang.test;
+package com.yang.redis;
 
 import javax.annotation.Resource;
 
@@ -31,6 +31,7 @@ public class UserNewTest {
 	@Test
 	public void getZSetId() {
 		System.out.println("----------->>"+retwis.userIdZSet().rangeByScore(1421908495250d, 1421908495256d));
+		System.out.println("----------->>"+retwis.userIdZSet().score("0"));
 	}
 
 	// @Test
