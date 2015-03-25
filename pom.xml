@@ -51,7 +51,7 @@
 	</pluginRepositories>
 
 	<properties>
-		<org.springframework.version>3.2.8.RELEASE</org.springframework.version>
+		<org.springframework.version>4.0.5.RELEASE</org.springframework.version>
 	</properties>
 
 	<!-- Core utilities used by other modules. Define this if you use Spring 
@@ -178,18 +178,25 @@
 			<scope>test</scope>
 		</dependency>
 		
+		<!-- Redis Start -->
 		<dependency>
 	        <groupId>org.springframework.data</groupId>
 	        <artifactId>spring-data-redis</artifactId>
 	        <version>1.4.1.RELEASE</version>
 	    </dependency>
-	    
 	    <dependency>
 		    <groupId>redis.clients</groupId>
 		    <artifactId>jedis</artifactId>
 		    <version>2.6.0</version>
 		    <type>jar</type>
 		    <scope>compile</scope>
+		</dependency>
+		
+		<!-- Elasticsearch Start -->
+		<dependency>
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-elasticsearch</artifactId>
+		    <version>1.2.0.RELEASE</version>
 		</dependency>
 		
 		<dependency>
