@@ -48,6 +48,7 @@ public class ElasticsearchTest {
 		app1.setCountry("United States");
 		app1.setAppName("Candy Crush Soda Saga");
 		app1.setPackageName("com.king.candycrushsodasaga");
+		app1.setMinTerminalVersion(7);
 
 		String documentId2 = "2";
 		AppInfo app2 = new AppInfo();
@@ -56,6 +57,7 @@ public class ElasticsearchTest {
 		app2.setCountry("United States");
 		app2.setAppName("2XL Racing");
 		app2.setPackageName("com.twoxlgames.street");
+		app2.setMinTerminalVersion(6);
 
 		appInfoRepository.save(app1);
 		appInfoRepository.save(app2);
