@@ -81,7 +81,7 @@ public class ElasticsearchTest {
 	public void queryApp2() {
 		SortBuilder sortBuilder = new FieldSortBuilder("id").order(SortOrder.DESC);
 		
-		QueryBuilder queryStringQueryBuilder = new QueryStringQueryBuilder("Cradle s").field("appName");
+		QueryBuilder queryStringQueryBuilder = new QueryStringQueryBuilder("Cradle").field("appName");
 		QueryBuilder rangeQueryBuilder = new RangeQueryBuilder("minTerminalVersion").lte(10);
 		BoolQueryBuilder bool = new BoolQueryBuilder();
 		bool.must(queryStringQueryBuilder);
@@ -96,7 +96,7 @@ public class ElasticsearchTest {
 		Page<AppInfo> appInfoPage = appInfoRepository.search(searchQuery);
 		List<AppInfo> app = appInfoPage.getContent();
 		for (AppInfo appInfo : app) {
-			System.out.println(appInfo.getAppName()+"-------------"+appInfo.getMinTerminalVersion());
+			System.out.println(appInfo.getPackageName()+"-------------"+appInfo.getAppName()+"-------------"+appInfo.getMinTerminalVersion());
 		}
 	}
 
