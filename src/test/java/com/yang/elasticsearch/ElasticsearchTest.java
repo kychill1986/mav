@@ -14,7 +14,6 @@ import org.apache.log4j.Logger;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.search.sort.FieldSortBuilder;
@@ -90,7 +89,7 @@ public class ElasticsearchTest {
 		}
 	}
 
-	@Test
+//	@Test
 	public void queryApp2() {
 		SortBuilder sortBuilder = new FieldSortBuilder("rank").order(SortOrder.ASC);
 		
@@ -101,7 +100,6 @@ public class ElasticsearchTest {
 		bool.must(matchQueryBuilder);
 		bool.must(rangeQueryBuilder);
 		
-		//精确查找
 		QueryBuilder termBuilder = new TermQueryBuilder("qiiCate", "2717");
 		bool.must(termBuilder);
 		
@@ -118,15 +116,14 @@ public class ElasticsearchTest {
 		}
 	}
 	
-//	@Test
+	@Test
 	public void accurateQueryApp() {
 		SortBuilder sortBuilder = new FieldSortBuilder("id").order(SortOrder.DESC);
 		
-		QueryBuilder queryStringQueryBuilder = new QueryStringQueryBuilder("Cradle").field("appName");
-		QueryBuilder rangeQueryBuilder = new RangeQueryBuilder("minTerminalVersion").lte(10);
 		BoolQueryBuilder bool = new BoolQueryBuilder();
-		bool.must(queryStringQueryBuilder);
-		bool.must(rangeQueryBuilder);
+		//精确查找, minimumShouldMatch提高精度，匹配的，越大要求越高
+		QueryBuilder matchQueryBuilder = new MatchQueryBuilder("appName", "Bubble Puppy Free").operator(MatchQueryBuilder.Operator.AND).minimumShouldMatch("1");
+		bool.must(matchQueryBuilder);
 		
 		SearchQuery searchQuery = new NativeSearchQueryBuilder()
 		 .withQuery(bool)
