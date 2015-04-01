@@ -10,20 +10,25 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.index.query.RangeQueryBuilder;
+import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.test.context.ContextConfiguration;
@@ -38,10 +43,16 @@ public class ElasticsearchTest {
 
 	@Resource
 	private AppInfoRepository appInfoRepository;
+	
+	@Autowired
+    private ElasticsearchTemplate elasticsearchTemplate;
+	
+	/** 日志记录器*/
+    Logger logger = Logger.getLogger(getClass().getSimpleName());
 
 //	 @Test
 	public void saveApp() {
-		String documentId = "1";
+		int documentId = 1;
 		AppInfo app1 = new AppInfo();
 		app1.setId(documentId);
 		app1.setCate("Games Casual");
@@ -50,7 +61,7 @@ public class ElasticsearchTest {
 		app1.setPackageName("com.king.candycrushsodasaga");
 		app1.setMinTerminalVersion(7);
 
-		String documentId2 = "2";
+		int documentId2 = 2;
 		AppInfo app2 = new AppInfo();
 		app2.setId(documentId2);
 		app2.setCate("Games Racing");
@@ -81,6 +92,34 @@ public class ElasticsearchTest {
 
 	@Test
 	public void queryApp2() {
+		SortBuilder sortBuilder = new FieldSortBuilder("rank").order(SortOrder.ASC);
+		
+		//模糊，匹配度查找
+		QueryBuilder matchQueryBuilder = new MatchQueryBuilder("appName", "Train").operator(MatchQueryBuilder.Operator.AND).minimumShouldMatch("75%");
+		QueryBuilder rangeQueryBuilder = new RangeQueryBuilder("minTerminalVersion").lte(15);
+		BoolQueryBuilder bool = new BoolQueryBuilder();
+		bool.must(matchQueryBuilder);
+		bool.must(rangeQueryBuilder);
+		
+		//精确查找
+		QueryBuilder termBuilder = new TermQueryBuilder("qiiCate", "2717");
+		bool.must(termBuilder);
+		
+		SearchQuery searchQuery = new NativeSearchQueryBuilder()
+		 .withQuery(bool)
+         .withPageable(new PageRequest(0,10))
+         .withSort(sortBuilder)
+         .build();
+		
+		Page<AppInfo> appInfoPage = appInfoRepository.search(searchQuery);
+		List<AppInfo> app = appInfoPage.getContent();
+		for (AppInfo appInfo : app) {
+			System.out.println(appInfo.getPackageName()+"-------------"+appInfo.getAppName()+"-------------"+appInfo.getMinTerminalVersion());
+		}
+	}
+	
+//	@Test
+	public void accurateQueryApp() {
 		SortBuilder sortBuilder = new FieldSortBuilder("id").order(SortOrder.DESC);
 		
 		QueryBuilder queryStringQueryBuilder = new QueryStringQueryBuilder("Cradle").field("appName");
@@ -102,6 +141,7 @@ public class ElasticsearchTest {
 		}
 	}
 
+	//导入测试数据，脚本是top_apps.sql
 	public void oper() {
 		// 驱动程序名
 		String driver = "com.mysql.jdbc.Driver";
@@ -127,7 +167,7 @@ public class ElasticsearchTest {
 			int cnt = 0;
 			while (rs.next()) {
 				AppInfo app = new AppInfo();
-				app.setId(rs.getString("id"));
+				app.setId(rs.getInt("id"));
 				app.setCate(rs.getString("cate"));
 				app.setCountry(rs.getString("country"));
 				app.setAppName(rs.getString("appName"));
