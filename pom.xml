@@ -291,10 +291,16 @@
 
 		<!-- httpclient -->
 		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.2</version>
+			<version>4.3.6</version>
 		</dependency>
+		
 		<!-- dom4j -->
 		<dependency>
 			<groupId>dom4j</groupId>
@@ -389,6 +395,18 @@
 			<artifactId>disruptor</artifactId>
 			<version>3.3.2</version>
 		</dependency>
+		
+		<!-- hadoop & hive -->
+	    <dependency>
+			<groupId>org.apache.hive</groupId>
+			<artifactId>hive-jdbc</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-common</artifactId>
+			<version>2.7.0</version>
+		</dependency>  
 		
 	</dependencies>
 </project>

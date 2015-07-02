@@ -1,3 +1,4 @@
 eclipse.preferences.version=1
 encoding//src/main/java/com/yang/controller/JSONController.java=UTF-8
+encoding//src/main/java/com/yang/elasticsearch/repository/AppInfoRepository.java=UTF-8
 encoding//src/test/java/com/yang/elasticsearch/ElasticsearchTest.java=UTF-8
