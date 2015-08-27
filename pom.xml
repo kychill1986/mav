@@ -182,21 +182,19 @@
 		<dependency>
 	        <groupId>org.springframework.data</groupId>
 	        <artifactId>spring-data-redis</artifactId>
-	        <version>1.4.1.RELEASE</version>
+	        <version>1.5.2.RELEASE</version>
 	    </dependency>
-	    <dependency>
-		    <groupId>redis.clients</groupId>
-		    <artifactId>jedis</artifactId>
-		    <version>2.6.0</version>
-		    <type>jar</type>
-		    <scope>compile</scope>
+			<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>2.7.3</version>
 		</dependency>
 		
 		<!-- Elasticsearch Start -->
 		<dependency>
 		    <groupId>org.springframework.data</groupId>
 		    <artifactId>spring-data-elasticsearch</artifactId>
-		    <version>1.2.0.RELEASE</version>
+		    <version>1.2.2.RELEASE</version>
 		</dependency>
 		
 		<dependency>
@@ -408,5 +406,10 @@
 			<version>2.7.0</version>
 		</dependency>  
 		
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.9</version>
+		</dependency>
 	</dependencies>
 </project>

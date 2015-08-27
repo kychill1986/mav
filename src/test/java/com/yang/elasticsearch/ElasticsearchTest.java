@@ -89,19 +89,19 @@ public class ElasticsearchTest {
 		}
 	}
 
-//	@Test
+	@Test
 	public void queryApp2() {
 		SortBuilder sortBuilder = new FieldSortBuilder("rank").order(SortOrder.ASC);
 		
 		//模糊，匹配度查找
-		QueryBuilder matchQueryBuilder = new MatchQueryBuilder("appName", "Train").operator(MatchQueryBuilder.Operator.AND).minimumShouldMatch("75%");
-		QueryBuilder rangeQueryBuilder = new RangeQueryBuilder("minTerminalVersion").lte(15);
+		QueryBuilder matchQueryBuilder = new MatchQueryBuilder("appName", "Moto 3D").operator(MatchQueryBuilder.Operator.AND).minimumShouldMatch("75%");
+		QueryBuilder rangeQueryBuilder = new RangeQueryBuilder("minTerminalVersion").lte(18);
 		BoolQueryBuilder bool = new BoolQueryBuilder();
 		bool.must(matchQueryBuilder);
 		bool.must(rangeQueryBuilder);
 		
-		QueryBuilder termBuilder = new TermQueryBuilder("qiiCate", "2717");
-		bool.must(termBuilder);
+//		QueryBuilder termBuilder = new TermQueryBuilder("qiiCate", "2717");
+//		bool.must(termBuilder);
 		
 		SearchQuery searchQuery = new NativeSearchQueryBuilder()
 		 .withQuery(bool)
@@ -112,18 +112,24 @@ public class ElasticsearchTest {
 		Page<AppInfo> appInfoPage = appInfoRepository.search(searchQuery);
 		List<AppInfo> app = appInfoPage.getContent();
 		for (AppInfo appInfo : app) {
-			System.out.println(appInfo.getPackageName()+"-------------"+appInfo.getAppName()+"-------------"+appInfo.getMinTerminalVersion());
+			System.out.println(appInfo.getPackageName()+"-------------"+appInfo.getAppName()+"-------------"+appInfo.getMinTerminalVersion()+"------------"+appInfo.getRank());
 		}
 	}
 	
-	@Test
+//	@Test
 	public void accurateQueryApp() {
 		SortBuilder sortBuilder = new FieldSortBuilder("id").order(SortOrder.DESC);
 		
 		BoolQueryBuilder bool = new BoolQueryBuilder();
 		//精确查找, minimumShouldMatch提高精度，匹配的，越大要求越高
-		QueryBuilder matchQueryBuilder = new MatchQueryBuilder("appName", "Bubble Puppy Free").operator(MatchQueryBuilder.Operator.AND).minimumShouldMatch("1");
+		QueryBuilder matchQueryBuilder = new MatchQueryBuilder("appName", "Bubble").operator(MatchQueryBuilder.Operator.AND);
 		bool.must(matchQueryBuilder);
+		
+//		QueryBuilder matchQueryBuilder1 = new MatchQueryBuilder("packageName", "com.worshipkingdomastonish.tie").operator(MatchQueryBuilder.Operator.AND).minimumShouldMatch("1");
+//		bool.mustNot(matchQueryBuilder1);
+		
+		QueryBuilder termBuilder = new TermQueryBuilder("packageName", "com.worshipkingdomastonish.tie");
+		bool.mustNot(termBuilder);
 		
 		SearchQuery searchQuery = new NativeSearchQueryBuilder()
 		 .withQuery(bool)
