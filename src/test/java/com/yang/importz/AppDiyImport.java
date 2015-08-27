@@ -25,6 +25,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
+@SuppressWarnings("unused")
 public class AppDiyImport {
 
 	private POIFSFileSystem fs;
@@ -314,7 +315,7 @@ public class AppDiyImport {
 		}
 	}
 
-	private static void global() {
+    private static void global() {
 		try {
 			// 对读取Excel表格标题测试
 			InputStream is = new FileInputStream("F:/excel/global.xls");
