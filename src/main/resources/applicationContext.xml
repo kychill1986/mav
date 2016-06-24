@@ -1,119 +1,154 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
        http://www.springframework.org/schema/context 
        http://www.springframework.org/schema/context/spring-context-3.2.xsd
+       http://www.springframework.org/schema/data/mongo
+       http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
        http://www.springframework.org/schema/tx 
        http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
        http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
-       
+
     <!-- ======================= annotation =============== -->
-    <context:annotation-config />
-	<context:component-scan base-package="com.yang.*" />
+    <context:annotation-config/>
+    <context:component-scan base-package="com.yang.*"/>
 
     <!-- ======================= aop =============== -->
-	<aop:aspectj-autoproxy proxy-target-class="true" />
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
 
-	<bean id="propertyConfigurer"  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-     	<property name="locations">
-	       	<list>
-	            <value>classpath:db.properties</value>
-	            <value>classpath:redis.properties</value>
-	       	</list>
-     	</property>
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:db.properties</value>
+                <value>classpath:redis.properties</value>
+                <value>classpath:mongo.properties</value>
+            </list>
+        </property>
     </bean>
 
-	<!-- Main data source -->
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-		<property name="driverClass" value="${jdbc.driverClass}" />
-		<property name="jdbcUrl" value="${jdbc.main.url}" />
-		<property name="user" value="${jdbc.main.username}" />
-		<property name="password" value="${jdbc.main.password}" />
-		<property name="autoCommitOnClose" value="true" />
-		<property name="checkoutTimeout" value="${pool.checkoutTimeout}" />
-		<property name="initialPoolSize" value="${pool.minPoolSize}" />
-		<property name="minPoolSize" value="${pool.minPoolSize}" />
-		<property name="maxPoolSize" value="${pool.maxPoolSize}" />
-		<property name="maxIdleTime" value="${pool.maxIdleTime}" />
-		<property name="acquireIncrement" value="${pool.acquireIncrement}" />
-		<property name="maxIdleTimeExcessConnections" value="${pool.maxIdleTimeExcessConnections}" />
-		<property name="idleConnectionTestPeriod" value="${pool.idleConnectionTestPeriod}" />
-		<property name="automaticTestTable" value="${pool.automaticTestTable}" />
-		<property name="numHelperThreads" value="${pool.numHelperThreads}" />
-	</bean>
+    <!-- Main data source -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="${jdbc.driverClass}"/>
+        <property name="jdbcUrl" value="${jdbc.main.url}"/>
+        <property name="user" value="${jdbc.main.username}"/>
+        <property name="password" value="${jdbc.main.password}"/>
+        <property name="autoCommitOnClose" value="true"/>
+        <property name="checkoutTimeout" value="${pool.checkoutTimeout}"/>
+        <property name="initialPoolSize" value="${pool.minPoolSize}"/>
+        <property name="minPoolSize" value="${pool.minPoolSize}"/>
+        <property name="maxPoolSize" value="${pool.maxPoolSize}"/>
+        <property name="maxIdleTime" value="${pool.maxIdleTime}"/>
+        <property name="acquireIncrement" value="${pool.acquireIncrement}"/>
+        <property name="maxIdleTimeExcessConnections" value="${pool.maxIdleTimeExcessConnections}"/>
+        <property name="idleConnectionTestPeriod" value="${pool.idleConnectionTestPeriod}"/>
+        <property name="automaticTestTable" value="${pool.automaticTestTable}"/>
+        <property name="numHelperThreads" value="${pool.numHelperThreads}"/>
+    </bean>
 
-	<!-- ==============================Transaction ============================ -->
-	<bean id="transactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
+    <!-- ==============================Transaction ============================ -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
 
-	<tx:advice id="txAdvice">
-		<tx:attributes>
-			<tx:method name="get*" read-only="true" />
-			<tx:method name="*" rollback-for="Exception" />
-		</tx:attributes>
-	</tx:advice>
+    <tx:advice id="txAdvice">
+        <tx:attributes>
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="*" rollback-for="Exception"/>
+        </tx:attributes>
+    </tx:advice>
 
-	<aop:config>
-		<aop:pointcut id="service"
-			expression="execution(* com.yang..service..*.*(..))" />
-		<aop:advisor advice-ref="txAdvice" pointcut-ref="service" />
-	</aop:config>
+    <aop:config>
+        <aop:pointcut id="service"
+                      expression="execution(* com.yang..service..*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="service"/>
+    </aop:config>
 
     <!-- ======================== JDBC ======================== -->
-	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-		<constructor-arg ref="dataSource" />
-	</bean>
-	
-	<!-- ======================== mybatis ======================== -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-	   <property name="dataSource" ref="dataSource"></property>
-	   <property name="typeAliasesPackage" value="com.yang.entity"></property>
-	</bean>
-	
-	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-	   <property name="basePackage" value="com.yang.mybatis.dao"></property>
-	</bean>
-	
-	<!-- ======================== Redis ======================== -->
-	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">  
-        <property name="maxIdle" value="${redis.maxIdle}"></property>  
-        <property name="minEvictableIdleTimeMillis" value="${redis.minEvictableIdleTimeMillis}"></property>  
-        <property name="numTestsPerEvictionRun" value="${redis.numTestsPerEvictionRun}"></property>  
-        <property name="timeBetweenEvictionRunsMillis" value="${redis.timeBetweenEvictionRunsMillis}"></property>  
-    </bean>  
-    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" destroy-method="destroy">  
-        <property name="poolConfig" ref="jedisPoolConfig"></property>  
-        <property name="hostName" value="${redis.hostName}"></property>  
-        <property name="port" value="${redis.port}"></property>  
-        <!-- 指定dbIndex --> 
-		<property name="database" value="${redis.dbIndex}"></property>  
-        <!--<property name="password" value="0123456"></property> --> 
-        <property name="timeout" value="${redis.timeout}"></property>  
-        <property name="usePool" value="${redis.usePool}"></property>  
-    </bean>    
-    <bean id="jedisTemplate" class="org.springframework.data.redis.core.RedisTemplate">  
-        <property name="connectionFactory" ref="jedisConnectionFactory"></property>  
-	    <property name="keySerializer">  
-	        <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>  
-	    </property>  
-	    <property name="hashKeySerializer">  
-	        <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>  
-	    </property>  
-	    <property name="valueSerializer">  
-	        <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>  
-	    </property>  
-	    <property name="hashValueSerializer">  
-	        <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>  
-	    </property>  
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
+    <!-- ======================== mybatis ======================== -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="typeAliasesPackage" value="com.yang.entity"></property>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.yang.mybatis.dao"></property>
+    </bean>
+
+    <!-- ======================== Redis ======================== -->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${redis.maxIdle}"></property>
+        <property name="minEvictableIdleTimeMillis" value="${redis.minEvictableIdleTimeMillis}"></property>
+        <property name="numTestsPerEvictionRun" value="${redis.numTestsPerEvictionRun}"></property>
+        <property name="timeBetweenEvictionRunsMillis" value="${redis.timeBetweenEvictionRunsMillis}"></property>
+    </bean>
+    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" destroy-method="destroy">
+        <property name="poolConfig" ref="jedisPoolConfig"></property>
+        <property name="hostName" value="${redis.hostName}"></property>
+        <property name="port" value="${redis.port}"></property>
+        <!-- 指定dbIndex -->
+        <property name="database" value="${redis.dbIndex}"></property>
+        <!--<property name="password" value="0123456"></property> -->
+        <property name="timeout" value="${redis.timeout}"></property>
+        <property name="usePool" value="${redis.usePool}"></property>
+    </bean>
+    <bean id="jedisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory"></property>
+        <property name="keySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="hashKeySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="valueSerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="hashValueSerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
     </bean>
     <bean id="stringRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
-    	<property name="connectionFactory" ref="jedisConnectionFactory"></property>  
+        <property name="connectionFactory" ref="jedisConnectionFactory"></property>
+    </bean>
+
+    <!-- ======================== Mongo ======================== -->
+
+    <!--
+        connections-per-host: 每个主机答应的连接数（每个主机的连接池大小），当连接池被用光时，会被阻塞住
+        max-wait-time: 被阻塞线程从连接池获取连接的最长等待时间（ms）
+        connect-timeout:在建立（打开）套接字连接时的超时时间（ms）
+        socket-timeout:套接字超时时间;该值会被传递给Socket.setSoTimeout(int)
+        slave-ok:指明是否答应驱动从次要节点或者奴隶节点读取数据
+        -->
+    <mongo:mongo host="${mongo.host}" port="${mongo.port}">
+        <mongo:options
+                connections-per-host="${mongo.connectionsPerHost}"
+                threads-allowed-to-block-for-connection-multiplier="${mongo.threadsAllowedToBlockForConnectionMultiplier}"
+                connect-timeout="${mongo.connectTimeout}"
+                max-wait-time="${mongo.maxWaitTime}"
+                auto-connect-retry="${mongo.autoConnectRetry}"
+                socket-keep-alive="${mongo.socketKeepAlive}"
+                socket-timeout="${mongo.socketTimeout}"
+                slave-ok="${mongo.slaveOk}"
+                write-number="1"
+                write-timeout="0"
+                write-fsync="true"/>
+    </mongo:mongo>
+
+    <!-- 设置使用的数据库 名-->
+    <mongo:db-factory dbname="chill" mongo-ref="mongo"/>
+    <!-- mongodb的模板 -->
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
     </bean>
 </beans>

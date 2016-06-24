@@ -51,7 +51,7 @@
 	</pluginRepositories>
 
 	<properties>
-		<org.springframework.version>4.0.5.RELEASE</org.springframework.version>
+		<org.springframework.version>4.2.0.RELEASE</org.springframework.version>
 	</properties>
 
 	<!-- Core utilities used by other modules. Define this if you use Spring 
@@ -424,6 +424,19 @@
 		  <version>1.1.2.1</version>
 		  <type>jar</type>
 		  <scope>compile</scope>
+		</dependency>
+
+		<!-- spring data mongo -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>1.9.2.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons</artifactId>
+			<version>1.12.1.RELEASE</version>
 		</dependency>
 	</dependencies>
 </project>
