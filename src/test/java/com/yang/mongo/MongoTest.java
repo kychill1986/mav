@@ -1,7 +1,6 @@
 package com.yang.mongo;
 
 import com.yang.mongo.model.User;
-import com.yang.mongo.repository.UserDao;
 import com.yang.mongo.repository.UserDaoImpl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
