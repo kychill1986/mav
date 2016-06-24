@@ -3,6 +3,7 @@ package com.yang.reidis;
 import javax.annotation.Resource;
 
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.hash.DecoratingStringHashMapper;
 import org.springframework.data.redis.hash.HashMapper;
 import org.springframework.data.redis.hash.JacksonHashMapper;
@@ -59,5 +60,8 @@ public class RetwisRepository {
 		return new DefaultRedisMap<String, Object>(KeyUtils.userInfo(uid), jedisTemplate);
 	}
 	
+	public ZSetOperations<String, String> getZSetOperations(){
+		return jedisTemplate.opsForZSet();
+	}
 	
 }
