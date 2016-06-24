@@ -140,13 +140,13 @@
                 socket-keep-alive="${mongo.socketKeepAlive}"
                 socket-timeout="${mongo.socketTimeout}"
                 slave-ok="${mongo.slaveOk}"
-                write-number="1"
-                write-timeout="0"
-                write-fsync="true"/>
+                write-number="${mongo.write.number}"
+                write-timeout="${mongo.write.timeout}"
+                write-fsync="${mongo.write.fsync}"/>
     </mongo:mongo>
 
-    <!-- 设置使用的数据库 名-->
-    <mongo:db-factory dbname="chill" mongo-ref="mongo"/>
+    <!-- 设置使用的数据库名-->
+    <mongo:db-factory dbname="${mongo.dbName}" mongo-ref="mongo"/>
     <!-- mongodb的模板 -->
     <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
         <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
