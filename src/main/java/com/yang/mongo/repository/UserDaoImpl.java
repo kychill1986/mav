@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,11 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void insert(User object,String collectionName) {
         mongoTemplate.insert(object, collectionName);
+    }
+
+    @Override
+    public void batchInsert(Collection<User> userList, String collectionName) {
+        mongoTemplate.insert(userList, collectionName);
     }
 
     @Override

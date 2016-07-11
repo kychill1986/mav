@@ -1,5 +1,6 @@
 package com.yang.mongo.repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,8 @@ import java.util.Map;
 public interface MongoBase<T> {
     //添加
     public void insert(T object,String collectionName);
+    //批量添加
+    public void batchInsert(Collection<T> collection, String collectionName);
     //根据条件查找
     public T findOne(Map<String,Object> params,String collectionName);
     //查找所有

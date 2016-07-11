@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,15 +28,24 @@ public class MongoTest {
 
     @Test
     public void testAdd() {
+        List<User> users = new ArrayList<User>();
 
+        int index = 0;
         //添加一百个user
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10000000; i++) {
             User user = new User();
             user.setId("" + i);
             user.setAge(i);
             user.setName("zcy" + i);
             user.setPassword("zcy" + i);
-            userDaoImpl.insert(user, collectionName);
+            users.add(user);
+
+            index++;
+            if(index == 10000){
+                userDaoImpl.batchInsert(users, collectionName);
+                index = 0;
+                users.clear();
+            }
         }
 
         Map<String, Object> params = new HashMap<String, Object>();
