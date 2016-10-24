@@ -32,6 +32,7 @@ public class MongoTest {
 
         int index = 0;
         //添加一百个user
+        /**
         for (int i = 0; i < 10000000; i++) {
             User user = new User();
             user.setId("" + i);
@@ -47,6 +48,7 @@ public class MongoTest {
                 users.clear();
             }
         }
+         */
 
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("maxAge", 50);
