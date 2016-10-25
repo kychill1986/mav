@@ -9,20 +9,22 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
+	<script type="application/javascript">
+		$(function(){
+			$('#userList').datagrid({
+				url:'user/listWithAjax',
+				pagination:true,//分页控件
+				loadMsg: "加载中,请稍候...",
+				columns:[[
+					{field:'id',title:'ID',width:100},
+					{field:'username',title:'Name',width:100}
+				]]
+			});
+		});
+	</script>
 </head>	
 
 <body>
-	<table>
-	  <tr>
-	    <td>ID</td>
-	    <td>Name</td>
-	  </tr>
-	    <c:forEach items="${list}" var="u">
-	  <tr>
-	    <td>${u.id}</td>
-	    <td>${u.username}</td>
-	  </tr>
-   		</c:forEach>
-	</table>
+<table id="userList"></table>
 </body>
 </html>

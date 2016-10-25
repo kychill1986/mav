@@ -7,4 +7,8 @@
 <c:set var="SELF" scope="application"><%=request.getRequestURI()%></c:set>
 <c:set var="BORDER_COLOR" scope="application">#CCCCCC</c:set>
 
-<script type="text/javascript" src="${ROOT}/js/jquery-1.8.0.js"></script>
+<link rel="stylesheet" type="text/css" href="${ROOT}/js/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="${ROOT}/js/easyui/themes/icon.css">
+
+<script type="text/javascript" src="${ROOT}/js/jquery.min.js"></script>
+<script type="text/javascript" src="${ROOT}/js/easyui/jquery.easyui.min.js"></script>
