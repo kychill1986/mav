@@ -40,6 +40,7 @@ public class UserController {
 		List<Users> userList = userService.getAllUser();
 
 		PageResult result = new PageResult();
+		//rows 和 total返回结果必须有,不然列表不能正常显示
 		result.setTotal(userList.size());
 		result.setRows(userList);
 		return result;
