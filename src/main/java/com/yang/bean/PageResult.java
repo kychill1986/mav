@@ -7,11 +7,11 @@ import java.util.List;
  */
 public class PageResult {
 
-    private long total;//每页显示的记录数
+    private long total;//总记录数
 
     private long page;//当前第几页
 
-    private List<?> rows;
+    private List<?> rows;//数据
 
     public long getTotal() {
         return total;
